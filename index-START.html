@@ -28,6 +28,16 @@
       --blur: 10px;
     }
 
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
+
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -51,6 +61,21 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input');
+    // note: this creates a NodeList of the inputs, which we can use forEach on
+    // if an actual array is needed, this can be converted into an array
+
+    function handleUpdate() {
+      // console.log(this.value);
+      const suffix = this.dataset.sizing || '';
+      // the || '' means "or nothing" so that undefined won't be added on colors
+      // console.log(this.name);
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    // but that only updates when we release the slider, so...
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
